@@ -25,7 +25,7 @@ class ArticleFixtures extends Fixture
             // Un manager (objectManager) en Symfony est une class permettant, entre autre, de manipuler les lignes de la BDD (INSERT, UPDATE, DELETE)
 
              // persist() : méthode issue de la classe ObjectManager permettant de préaprer et de garder en méméoire les requetes d'insertion
-            // persist() => donne en PHP -> $data =$bdd->prepare("INSERT INTO article VALUES("getTitre()"))
+            // persist() => donne en PHP -> $data =$bdd->prepare("INSERT INTO article VALUES("getTitre()", "getContenu()" etc...)")
             $manager->persist($article);
         }
 
