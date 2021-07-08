@@ -8,4 +8,20 @@
 
     <h1 class="fst-italic text-center my-4">Création d'un article</h1>
 
+    <form method="post">
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" class="form-control" id="titre" name="titre">
+        </div>
+        <div class="mb-3">
+            <label for="contenu" class="form-label">Contenu</label>
+            <textarea class="form-control" id="contenu" rows="15" name="contenu"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="text" class="form-control" id="image" name="image">
+        </div>
+        <button type="submit" class="btn btn-primary mb-5">Enregistrer</button>
+    </form>
+
 {% endblock %}

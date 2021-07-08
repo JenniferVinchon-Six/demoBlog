@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Blog | Création d'un article
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="fst-italic text-center my-5">
+        {# Si la condition IF renvoie TRUE, cela veut dire que editMode(fichier BlogController.php) contient un ID d'un article, alors c'est une modification #}
+        {% if editMode %}
+            Modification de L'article
+        {# Sinon editMode ne contient aucun ID d'article, il renvoi FALSE, alors c'est une insertion, on entre dans le ESLE #}
+        {% else %}
+            Création d'un article
+        {% endif %}
+    </h1>
+
+    {# ouverture de la balise <form> + methode=""+ action="" #}
+    {{ form_start(formArticle) }}
+
+        {# fonction TWIG permettant de faire appel aux différents champs du formulaire #}
+        {{ form_row(formArticle.titre, {"label": "Titre de l'article"}) }}
+
+        {{ form_row(formArticle.contenu) }}
+
+        {{ form_row(formArticle.image) }}
+
+        <button type="submit" class="btn btn-primary mb-5">
+            {% if editMode %}
+                Enregistrer les modifications
+            {% else %}
+                Enregistrer
+            {% endif %}
+        </button>
+
+    {{ form_end(formArticle) }}
+    {# fermeture de la balise </form> #}
+
+{% endblock %}

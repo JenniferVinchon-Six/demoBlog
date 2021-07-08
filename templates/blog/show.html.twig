@@ -23,6 +23,7 @@
 
                     {# la fonction path() attend en argument le NOM de la route définit ds le fichier BlogController.php ds l'annonce de la @Route("", name="NOM_ROUTE") #}
                     <a href="{{ path('blog') }}">Retour aux articles !</a>
+                    <a href="{{ path('blog_edit', {"id": articleBDD.id}) }}">Modifier</a>
                 </div>
                 <div class="col-md-5 d-none d-lg-block">
                     <img src="{{ articleBDD.image }}" alt="{{ articleBDD.titre }}">
