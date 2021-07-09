@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleType;
+use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -185,8 +187,10 @@ class BlogController extends AbstractController
      * 
      * @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Article $article): Response
+    public function show(Article $article, Request $request): Response
     {
+        // ***** AJOUTER -> Request $request ds les () de public function show pr récupérer les donnees du formulaire d'ajout de commentaire
+
         // ds notre methode on a accès a l'id de l'article
         // dump($id); // id transmis ds l'URL envoyer en argument à la fonction (show)
 
@@ -201,11 +205,25 @@ class BlogController extends AbstractController
         // SELECT * FROM article WHERE id = 6 + FETCH
         // $article = $repoArticle1->find($id);
         dump($article);
-        
+
+        // ****** TRAITEMENT COMMENTAIRE ARTICLE (formulaire + insertion)
+        // on instancie notre objet $comment
+        $comment = new Comment; // importer la class app/Entity/Comment 
+
+        // je creer mon formulaire et je le relie à une identité $comment
+        $formComment = $this->createForm(CommentType::class, $comment);
+
+        dump($request);
+
+        $formComment->handleRequest($request); // on envois les donnée ds le setter de Comment
+
+        dump($comment);
+
         // ****** ENVOIS les infos au TEMPLATE
         // render() : méthode qui permet d'envoyer les info receptionner au dessu
         return $this->render('blog/show.html.twig', [
-            "articleBDD" => $article // on transmet au template les données de l'article selectionné en BDD afin de les traiter avec le langage TWIG ds le template
+            "articleBDD" => $article, // on transmet au template les données de l'article selectionné en BDD afin de les traiter avec le langage TWIG ds le template
+            "formComment" => $formComment->createView() // affichage du formulaire pr les commentaires
         ]);
     }
 }

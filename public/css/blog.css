@@ -106,5 +106,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bandeau-header{
-    background: #1ea1d4;
+    /* background: #1ea1d4; */
+    background-image: url(../asset/image1.jpg);
+    background-size: cover;
+    background-position: center;
 }
