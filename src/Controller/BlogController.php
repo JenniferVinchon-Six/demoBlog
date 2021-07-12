@@ -187,9 +187,10 @@ class BlogController extends AbstractController
      * 
      * @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Article $article, Request $request): Response
+    public function show(Article $article, Request $request, EntityManagerInterface $manager): Response
     {
         // ***** AJOUTER -> Request $request ds les () de public function show pr récupérer les donnees du formulaire d'ajout de commentaire
+        // ***** AJOUTER -> EntityManagerInterface $manager ds les () de public function show pr enregistrer les données saisie ds le formulaire ds la BDD
 
         // ds notre methode on a accès a l'id de l'article
         // dump($id); // id transmis ds l'URL envoyer en argument à la fonction (show)
@@ -214,10 +215,42 @@ class BlogController extends AbstractController
         $formComment = $this->createForm(CommentType::class, $comment);
 
         dump($request);
+        // récupération des données saisie :
+        $formComment->handleRequest($request); // on envois les donnée du formulaire saisie ds le setter de Comment
 
-        $formComment->handleRequest($request); // on envois les donnée ds le setter de Comment
+        if($formComment->isSubmitted() && $formComment->isValid())
+        {
+            $comment->setDate(new \DateTime());
 
-        dump($comment);
+            // on établit la relation entre le commentaire et l'article (clé étrangère)
+            // setArticle() : méthode issue de l'entité "Comment" qui permet de renseigner l'article associé au commentaire.
+            // Cette méthode attends en argument l'objet entité "Article" de la BDD et et non la clé étrangère elle même
+            $comment->setArticle($article);
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            // MESSAGE VALIDATION UTILISATEUR :
+            // addFlash() : méthode permettant de déclarer un message de validation stocké en session.
+            // arguments : 1. Identifiant du message (sucess) | 2. Le message utilisateur
+            $this->addFlash("success", "Le commentaire a été posté avec succès !");
+
+            /*
+                session
+                array(
+                    success => [
+                        0 => "Le commentaire a été posté avec succès !"
+                    ]
+                )
+            */
+
+            dump($comment);
+
+            // Après l'insertion, on redirige l'internaute vers l'affichage de l'article afin de rebooter le formulaire
+            return $this->redirectToRoute("blog_show", [
+                'id' => $article->getId()
+            ]);
+        }
 
         // ****** ENVOIS les infos au TEMPLATE
         // render() : méthode qui permet d'envoyer les info receptionner au dessu
