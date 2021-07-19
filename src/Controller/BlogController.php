@@ -145,6 +145,7 @@ class BlogController extends AbstractController
         $formArticle->handleRequest($request);
 
         dump($article);
+        //dd($formArticle);
 
         // *********** 2. CONDITION (si le formul à bien été renseigné)
         // Si le formulaire a bien été validée && que toutes les données saisie sont bien transmise à la bonne entité, alors on entre ds la condition IF
@@ -156,6 +157,13 @@ class BlogController extends AbstractController
             {
                 $article->setDate(new \DateTime());
             }
+
+            // *********** RECUPERER LE TAG
+            $tags = $formArticle->get("tags")->getData();
+
+            //dd($tags[0]);
+            //dd($tags[0]->getName()); // c'est un tableau, et pr récupérer la données, il faut indiquer les crochets[]
+            $article->addTag($tags[0]);
 
             // *********** PREPARATION DE LA REQUETE D'INSERTION
              // Pour manipuler les lignes de la BDD (INSERT, UPDATE, DELETE), nous avons besoin d'un mamager (EntityManagerInterface) 
