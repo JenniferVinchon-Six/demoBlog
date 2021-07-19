@@ -13,7 +13,13 @@
     <div class="col-md-12">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
             <div class="col-md-7 p-4 d-flex flex-column">
-                <strong class="d-inline-block mb-2 text-primary">{{ articleBDD.category.titre }}</strong>
+                <div class="wrap">
+                    <strong class="d-inline-block mb-2 text-primary">{{ articleBDD.category.titre }} :</strong>
+                    {% for tag in articleBDD.tags %}
+                        <p class="d-inline-block mb-2 text-primary">{{ tag.name }} |</p>
+                        {# first (persistent collection) est égal à -> [0] car c'est un tableau #}
+                    {% endfor %}
+                </div>
 
                 <h3 class="mb-0">{{ articleBDD.titre }}</h3>
 
@@ -34,7 +40,7 @@
         {# AFFICHAGE MESSAGE VALIDATION UTILISATEUR #}
         {# app : objet TWIG qui contient toutes les données de la session en cours, du fichier de session #}
         {# Flashes() : méthode permettant d'accèder en session au message flash utilisateur déclarés ds le controller, il faut lui fournir en argument l'identifiant (sucsess) #}
-        {# message : cariable de reception qui nous définissons, qui receptionne un message utilisateur par tour de boucle #}
+        {# message : variable de reception que nous définissons, qui receptionne un message utilisateur par tour de boucle #}
         {% for message in app.flashes("success") %}
             <div class="col-md-4 mx-auto alert alert-primary text-center p-2">
             {{ message }}

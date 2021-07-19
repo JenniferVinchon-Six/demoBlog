@@ -11,12 +11,13 @@
 {# Le contenu du bloc 'body' est envoyé dans le bloc 'body' de base.html.twig et l'ensemble est envoyé en réponse sur le navigateur (base + template)  #}
 {% block body %}
 
-    <h1>Bienvenue sur le blog Symfony 👌</h1>
+    <div class="row text-center my-5">
+        <h1>Bienvenue sur le blog Symfony 👌</h1>
 
     {#
         TWIG est un langage de rendu.
         AVANTAGE :
-            - simplicité du language : facilités d'écriture et d'affichage, apporte beaucoup de conctionnalités
+            - simplicité du language : facilités d'écriture et d'affichage, apporte beaucoup de fonctionnalités
             - Absence de PHP au sein de nos affichages, permet d'abstraires les affichages des balises PHP
             - Plus simple pour un intégrateur.
 
@@ -35,6 +36,7 @@
     {% else %}
         <p>Tu es mineur !!</p>
     {% endif %}
-
+    </div>
+    
 {% endblock %}
 
